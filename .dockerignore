@@ -1,0 +1,14 @@
+README.md
+LICENSE
+
+.git
+.gitignore
+
+Makefile
+.*build
+
+node_modules
+.nuxt
+
+todo*
+tmp*

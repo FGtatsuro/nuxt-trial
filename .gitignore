@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# For Make tasks
+.*build
+
+# For memo files
+todo*
+tmp*
