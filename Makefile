@@ -1,10 +1,13 @@
-.PHONY: clean docker/build docker/rebuild nuxt/dev nuxt/stop
+.PHONY: clean
+.PHONY: docker/build docker/rebuild
+.PHONY: nuxt/dev nuxt/build nuxt/start nuxt/stop
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
 
 clean:
 	rm -f .docker_build
+	rm -rf .nuxt .output
 
 docker/build: .docker_build
 .docker_build:
@@ -27,7 +30,28 @@ nuxt/dev: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt; \
+			nuxi dev; \
+	fi
+
+nuxt/build: docker/build
+	docker run \
+		-it --rm \
+		-v `pwd`:/workdir -v /workdir/node_modules \
+		-e NODE_OPTIONS=--openssl-legacy-provider \
+		$(IMAGE):latest \
+		nuxi build;
+
+nuxt/start: docker/build
+	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker run \
+			--name $(CONTAINER) \
+			-d -it --rm \
+			-v `pwd`:/workdir -v /workdir/node_modules \
+			-p 3000:3000 \
+			-e HOST=0.0.0.0 \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(IMAGE):latest \
+			node .output/server/index.mjs; \
 	fi
 
 nuxt/stop:
