@@ -9,6 +9,7 @@ Makefile
 
 node_modules
 .nuxt
+.output
 
 todo*
 tmp*
