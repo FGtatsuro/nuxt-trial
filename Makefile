@@ -5,7 +5,7 @@
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
 
-clean:
+clean: nuxt/stop
 	rm -f .docker_build
 	rm -rf .nuxt .output
 
