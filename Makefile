@@ -1,4 +1,4 @@
-.PHONY: clean docker/build nuxt/dev nuxt/stop
+.PHONY: clean docker/build docker/rebuild nuxt/dev nuxt/stop
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
@@ -10,6 +10,8 @@ docker/build: .docker_build
 .docker_build:
 	docker build -t $(IMAGE):latest .
 	touch .docker_build
+
+docker/rebuild: clean docker/build
 
 # NOTE: Use anonymous volume to avoid overwriting node_modules.
 #   FYI: https://docs.docker.com/storage/volumes/#populate-a-volume-using-a-container
