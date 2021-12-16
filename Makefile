@@ -7,7 +7,7 @@ CONTAINER := nuxt-trial-container
 
 clean: nuxt/stop
 	rm -f .docker_build
-	rm -rf .nuxt .output
+	rm -rf .nuxt node_modules
 
 docker/build: .docker_build
 .docker_build:
@@ -30,7 +30,7 @@ nuxt/dev: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxi dev; \
+			nuxt; \
 	fi
 
 nuxt/build: docker/build
@@ -39,7 +39,7 @@ nuxt/build: docker/build
 		-v `pwd`:/workdir -v /workdir/node_modules \
 		-e NODE_OPTIONS=--openssl-legacy-provider \
 		$(IMAGE):latest \
-		nuxi build;
+		nuxt build;
 
 nuxt/start: docker/build
 	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
@@ -51,7 +51,7 @@ nuxt/start: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			node .output/server/index.mjs; \
+			nuxt start; \
 	fi
 
 nuxt/stop:
