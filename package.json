@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "nuxt-edge": "latest"
+    "core-js": "^3.20.0",
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
-    "@nuxt/bridge": "npm:@nuxt/bridge-edge@^3.0.0-27307420.6a25d3e"
+    "@nuxtjs/composition-api": "^0.31.0"
   }
 }
