@@ -10,7 +10,7 @@ clean: nuxt/stop
 	rm -rf .nuxt node_modules
 
 docker/build: .docker_build
-.docker_build:
+.docker_build: package.json package-lock.json
 	docker build -t $(IMAGE):latest .
 	touch .docker_build
 
