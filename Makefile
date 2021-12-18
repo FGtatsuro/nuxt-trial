@@ -30,7 +30,7 @@ dev: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt-ts; \
+			nuxt; \
 	fi
 
 build: docker/build
@@ -40,13 +40,13 @@ build: docker/build
 			-v `pwd`:/workdir -v /workdir/node_modules \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt-ts build; \
+			nuxt build; \
 	else \
 		docker exec \
 			-it \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(CONTAINER) \
-			npx nuxt-ts build; \
+			npx nuxt build; \
 	fi
 
 start: docker/build
@@ -59,7 +59,7 @@ start: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt-ts start; \
+			nuxt start; \
 	fi
 
 stop:
