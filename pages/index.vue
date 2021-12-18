@@ -1,6 +1,8 @@
 <template>
   <div class="main">
-    <div>Hello {{ count }}</div>
+    <div class="red">
+      Hello {{ count }}
+    </div>
     <button @click="increment">
       Count up
     </button>
@@ -25,3 +27,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+.red {
+  color: red;
+}
+</style>
