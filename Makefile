@@ -30,7 +30,7 @@ nuxt/dev: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt; \
+			nuxt-ts; \
 	fi
 
 nuxt/build: docker/build
@@ -39,7 +39,7 @@ nuxt/build: docker/build
 		-v `pwd`:/workdir -v /workdir/node_modules \
 		-e NODE_OPTIONS=--openssl-legacy-provider \
 		$(IMAGE):latest \
-		nuxt build;
+		nuxt-ts build;
 
 nuxt/start: docker/build
 	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
@@ -51,7 +51,7 @@ nuxt/start: docker/build
 			-e HOST=0.0.0.0 \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			nuxt start; \
+			nuxt-ts start; \
 	fi
 
 nuxt/stop:
