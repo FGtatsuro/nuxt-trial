@@ -34,12 +34,20 @@ dev: docker/build
 	fi
 
 build: docker/build
-	docker run \
-		-it --rm \
-		-v `pwd`:/workdir -v /workdir/node_modules \
-		-e NODE_OPTIONS=--openssl-legacy-provider \
-		$(IMAGE):latest \
-		nuxt-ts build;
+	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker run \
+			-it --rm \
+			-v `pwd`:/workdir -v /workdir/node_modules \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(IMAGE):latest \
+			nuxt-ts build; \
+	else \
+		docker exec \
+			-it \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(CONTAINER) \
+			npx nuxt-ts build; \
+	fi
 
 start: docker/build
 	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
