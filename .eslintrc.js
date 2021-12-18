@@ -26,5 +26,13 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
     'no-multiple-empty-lines': 'off',
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        'ignores': [
+          'index'
+        ]
+      }
+    ],
   },
 }
