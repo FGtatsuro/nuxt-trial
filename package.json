@@ -8,6 +8,9 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/composition-api": "^0.31.0",
     "@nuxtjs/eslint-config-typescript": "^8.0.0",
-    "eslint-plugin-nuxt": "^3.1.0"
+    "@nuxtjs/stylelint-module": "^4.1.0",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "stylelint": "^14.1.0",
+    "stylelint-config-standard": "^24.0.0"
   }
 }
