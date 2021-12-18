@@ -1,6 +1,6 @@
 .PHONY: clean
 .PHONY: docker/build docker/rebuild
-.PHONY: dev build start stop
+.PHONY: dev build start logs stop
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
@@ -52,6 +52,11 @@ start: docker/build
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
 			nuxt-ts start; \
+	fi
+
+logs:
+	if [ -n "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker logs -f $(CONTAINER) || exit 0;\
 	fi
 
 stop:
