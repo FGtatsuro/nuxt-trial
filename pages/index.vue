@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div>Hello {{ count }}</div>
-    <button @click="increment">Count up</button>
+    <button @click="increment">
+      Count up
+    </button>
   </div>
 </template>
 
@@ -9,7 +11,7 @@
 import { defineComponent, ref } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  setup(props) {
+  setup (_) {
     const count = ref(0)
 
     const increment = () => {

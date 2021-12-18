@@ -1,6 +1,6 @@
 .PHONY: clean
 .PHONY: docker/build docker/rebuild
-.PHONY: dev build start logs stop
+.PHONY: dev build start stop logs lint
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
@@ -54,12 +54,28 @@ start: docker/build
 			nuxt-ts start; \
 	fi
 
+stop:
+	if [ -n "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker rm -f $(CONTAINER); \
+	fi
+
 logs:
 	if [ -n "`docker ps -a | grep $(CONTAINER)`" ]; then \
 		docker logs -f $(CONTAINER) || exit 0;\
 	fi
 
-stop:
-	if [ -n "`docker ps -a | grep $(CONTAINER)`" ]; then \
-		docker rm -f $(CONTAINER); \
+lint:
+	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker run \
+			-it --rm \
+			-v `pwd`:/workdir -v /workdir/node_modules \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(IMAGE):latest \
+			eslint --ext .ts,.js,.vue .; \
+	else \
+		docker exec \
+			-it \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(CONTAINER) \
+			npx eslint --ext .ts,.js,.vue .; \
 	fi
