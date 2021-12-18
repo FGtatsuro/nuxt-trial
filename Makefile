@@ -1,11 +1,11 @@
 .PHONY: clean
 .PHONY: docker/build docker/rebuild
-.PHONY: nuxt/dev nuxt/build nuxt/start nuxt/stop
+.PHONY: dev build start stop
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
 
-clean: nuxt/stop
+clean: stop
 	rm -f .docker_build
 	rm -rf .nuxt node_modules
 
@@ -20,7 +20,7 @@ docker/rebuild: clean docker/build
 #   FYI: https://docs.docker.com/storage/volumes/#populate-a-volume-using-a-container
 # NOTE: Current latest node causes OpenSSL related error.
 #   FYI: https://github.com/webpack/webpack/issues/14532
-nuxt/dev: docker/build
+dev: docker/build
 	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
 		docker run \
 			--name $(CONTAINER) \
@@ -33,7 +33,7 @@ nuxt/dev: docker/build
 			nuxt-ts; \
 	fi
 
-nuxt/build: docker/build
+build: docker/build
 	docker run \
 		-it --rm \
 		-v `pwd`:/workdir -v /workdir/node_modules \
@@ -41,7 +41,7 @@ nuxt/build: docker/build
 		$(IMAGE):latest \
 		nuxt-ts build;
 
-nuxt/start: docker/build
+start: docker/build
 	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
 		docker run \
 			--name $(CONTAINER) \
@@ -54,7 +54,7 @@ nuxt/start: docker/build
 			nuxt-ts start; \
 	fi
 
-nuxt/stop:
+stop:
 	if [ -n "`docker ps -a | grep $(CONTAINER)`" ]; then \
 		docker rm -f $(CONTAINER); \
 	fi
