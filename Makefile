@@ -1,6 +1,6 @@
 .PHONY: clean
 .PHONY: docker/build docker/rebuild
-.PHONY: dev build start stop logs lint
+.PHONY: dev build start stop logs lint fix
 
 IMAGE := nuxt-trial
 CONTAINER := nuxt-trial-container
@@ -97,4 +97,31 @@ lint:
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(CONTAINER) \
 			npx stylelint **/*.vue --ignore-path .gitignore; \
+	fi
+
+fix:
+	if [ -z "`docker ps -a | grep $(CONTAINER)`" ]; then \
+		docker run \
+			-it --rm \
+			-v `pwd`:/workdir -v /workdir/node_modules \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(IMAGE):latest \
+			eslint --ext .ts,.js,.vue --ignore-path .gitignore --ignore-pattern .eslintrc.js --fix . && \
+		docker run \
+			-it --rm \
+			-v `pwd`:/workdir -v /workdir/node_modules \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(IMAGE):latest \
+			stylelint **/*.vue --ignore-path .gitignore --fix; \
+	else \
+		docker exec \
+			-it \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(CONTAINER) \
+			npx eslint --ext .ts,.js,.vue --ignore-path .gitignore --ignore-pattern .eslintrc.js --fix . && \
+		docker exec \
+			-it \
+			-e NODE_OPTIONS=--openssl-legacy-provider \
+			$(CONTAINER) \
+			npx stylelint **/*.vue --ignore-path .gitignore --fix; \
 	fi
