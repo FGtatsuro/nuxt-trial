@@ -5,7 +5,9 @@ const config: NuxtConfig = {
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/stylelint-module'
-  ]
+  ],
+
+  components: true
 }
 
 export default config
