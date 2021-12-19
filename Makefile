@@ -79,22 +79,22 @@ lint:
 			-v `pwd`:/workdir -v /workdir/node_modules \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			eslint --ext .ts,.js,.vue . && \
+			eslint --ext .ts,.js,.vue --ignore-path .gitignore --ignore-pattern .eslintrc.js . && \
 		docker run \
 			-it --rm \
 			-v `pwd`:/workdir -v /workdir/node_modules \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(IMAGE):latest \
-			stylelint **/*.vue; \
+			stylelint **/*.vue --ignore-path .gitignore; \
 	else \
 		docker exec \
 			-it \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(CONTAINER) \
-			npx eslint --ext .ts,.js,.vue . && \
+			npx eslint --ext .ts,.js,.vue --ignore-path .gitignore --ignore-pattern .eslintrc.js . && \
 		docker exec \
 			-it \
 			-e NODE_OPTIONS=--openssl-legacy-provider \
 			$(CONTAINER) \
-			npx stylelint **/*.vue; \
+			npx stylelint **/*.vue --ignore-path .gitignore; \
 	fi
