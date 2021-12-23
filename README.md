@@ -10,11 +10,11 @@ Trial project for Nuxt.js
 ### Run development server
 
 ```bash
-$ make nuxt/dev
+$ make dev
 ```
 
 ### Stop development server
 
 ```bash
-$ make nuxt/stop
+$ make stop
 ```
